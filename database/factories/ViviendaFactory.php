@@ -17,7 +17,8 @@ class ViviendaFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'direccion' => $this->faker->address,
+            'precio' => $this->faker->randomFloat($maxDecimals = 2, $min = 0, $max = 2)
         ];
     }
 }

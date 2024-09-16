@@ -18,6 +18,10 @@ class TasacionFactory extends Factory
     {
         return [
             'estado' => $this->faker->randomElement(['Solicitado', 'En proceso', 'Completado', 'Rechazado']),
+            'comentarios' => $this->faker->text,
+            'gestor_id' => 1,//el admin, para test
+            'cliente_id' => $this->faker->numberBetween($min = 2, $max = 25),
+            'vivienda_id' => $this->faker->numberBetween($min = 1, $max = 20),
         ];
     }
 }

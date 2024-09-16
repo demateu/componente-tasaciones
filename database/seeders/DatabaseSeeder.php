@@ -5,6 +5,8 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\User;
 
 class DatabaseSeeder extends Seeder
@@ -21,18 +23,23 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+        // Creación del usuario administrador (temporal para la prueba)
+        User::create([
+            'name' => 'Monica',
+            'apellidos' => 'apellido1 apellido2',    
+            'email' => 'demateu80@gmail.com',
+            'password' => 1234,//para la prueba
+        ]) ; 
+        
+        User::factory(30)
+            ->create();
+
         $this->call(ViviendaSeeder::class);
 
         $this->call(TasacionSeeder::class);
 
-        User::factory(10)
-            ->create();
 
-        // Creación del usuario administrador (temporal para la prueba)
-        User::create([
-            'nombre' => 'Monica',
-            'apellidos' => 'apellido1 apellido 2',    
-            'email' => 'demateu80@gmail.com',
-            ]) ; 
+
+        
     }
 }

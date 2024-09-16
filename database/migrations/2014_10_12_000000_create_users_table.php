@@ -22,7 +22,7 @@ return new class extends Migration
             $table->softDeletes();
 
             //Datos personales user
-            $table->string('nombre');
+            $table->string('name');
             $table->string('apellidos');
 
             // esto debería ser un sistemab de implementacion de roles tipo con (ejemplo) el paquete Spatie
