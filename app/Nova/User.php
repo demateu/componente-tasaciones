@@ -17,15 +17,15 @@ class User extends Resource
      *
      * @var class-string<\App\Models\User>
      */
-    //public static $model = \App\Models\User::class;
-    public static $model = 'App\\Models\\User';
+    public static $model = \App\Models\User::class;
+    //public static $model = 'App\\Models\\User';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'email';
 
     /**
      * The columns that should be searched.
@@ -33,7 +33,10 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id', 
+        'name', 
+        'apellidos', 
+        'email',
     ];
 
     /**
@@ -49,10 +52,6 @@ class User extends Resource
 
             Gravatar::make()->maxWidth(50),
 
-            Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
-
             Text::make('Email')
                 ->sortable()
                 ->rules('required', 'email', 'max:254')
@@ -63,6 +62,14 @@ class User extends Resource
                 ->onlyOnForms()
                 ->creationRules('required', Rules\Password::defaults())
                 ->updateRules('nullable', Rules\Password::defaults()),
+                
+            Text::make('Name')
+                ->sortable()
+                ->rules('required', 'max:255'),
+
+            Text::make('Apellidos', 'apellidos')
+                ->sortable()
+                ->rules('required', 'max:255'),
         ];
     }
 
@@ -108,5 +115,16 @@ class User extends Resource
     public function actions(NovaRequest $request)
     {
         return [];
+    }
+
+
+    /**
+     * TEST:
+     * añado por el mensaje de error del 
+     * Call to undefined method App\Models\User::uriKey()
+     */
+    public static function uriKey()
+    {
+        return 'users';
     }
 }

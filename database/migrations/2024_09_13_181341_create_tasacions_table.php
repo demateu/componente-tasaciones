@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('tasacions', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->text('comentarios')->nullable();
+            //$table->text('comentarios')->nullable();
+            $table->text('comentarios');
             $table->set('estado', ['Solicitado', 'En proceso', 'Completado', 'Rechazado'])->default('Solicitado');
 
             //FK PARA USER (cliente y gestor)

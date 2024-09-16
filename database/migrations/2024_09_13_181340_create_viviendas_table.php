@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->string('direccion');
-            $table->decimal('precio', 11, 2)->unsigned()->nullable(); 
+            $table->decimal('precio', 14, 2)->unsigned()->nullable(); 
 
         });
     }

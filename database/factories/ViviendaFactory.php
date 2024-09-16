@@ -18,7 +18,7 @@ class ViviendaFactory extends Factory
     {
         return [
             'direccion' => $this->faker->address,
-            'precio' => $this->faker->randomFloat($maxDecimals = 2, $min = 0, $max = 2)
+            'precio' => $this->faker->randomFloat($maxDecimals = 2, $min = 70000, $max = 1999999)
         ];
     }
 }
