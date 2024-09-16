@@ -14,7 +14,8 @@ use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\DateTime;
 
 /** Models */
-use App\Models\User;
+//use App\Models\User;
+//use App\Nova\User;
 
 /**  */
 use Illuminate\Http\Request;
@@ -89,12 +90,17 @@ class Tasacion extends Resource
                 ->displayUsing(function ($value) {
                 return Carbon::parse($value)->format('d/m/Y');
             }),
-            
+
             DateTime::make('Actualizado', 'updated_at')
                 ->onlyOnDetail()
                 ->displayUsing(function ($value) {
                 return Carbon::parse($value)->format('d/m/Y');
             }),
+
+            // dentro de make va el nombre de la relacion de este modelo con el que queremos enlazar
+            BelongsTo::make('user'),
+
+            BelongsTo::make('vivienda'),
 
             /*
             // Relación con el cliente (User)
@@ -114,6 +120,7 @@ class Tasacion extends Resource
             */
 
 
+            //OJO QUE FALTAN VALIDACIONES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             
         ];
     }

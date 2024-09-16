@@ -26,6 +26,10 @@ return new class extends Migration
             $table->bigInteger('gestor_id')->unsigned()->nullable();
             $table->foreign('gestor_id')->references('id')->on('users')->onDelete('set null');
 
+            //test
+            $table->bigInteger('user_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+
             //FK PARA VIVIENDA
                 // si se elimina la vivienda, la tasacion también
             $table->bigInteger('vivienda_id')->unsigned();

@@ -26,6 +26,14 @@ class Tasacion extends Model
         'vivienda_id' //FK
     ];
 
+    /**
+     * Una tasacion pertenece a 1 solo cliente
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 
     /**
      * Una tasacion pertenece a 1 solo cliente

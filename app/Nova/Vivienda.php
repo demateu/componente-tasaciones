@@ -15,6 +15,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
+use Laravel\Nova\Fields\HasMany;
+
 class Vivienda extends Resource
 {
     /**
@@ -53,6 +55,7 @@ class Vivienda extends Resource
             ID::make()->sortable(),
             Currency::make('Precio', 'precio')->currency('EUR')->sortable()->filterable(),
             Text::make('Dirección', 'direccion'),
+
         ];
     }
 

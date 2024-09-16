@@ -53,10 +53,12 @@ class User extends Authenticatable
      * como cliente o como gestor
      * esta pertenece al cliente
      */
+    /*
     public function tasaciones()
     {
         return $this->hasMany(Tasacion::class, 'cliente_id');
     }
+        */
 
     /**
      * Un usuario puede tener varias tasaciones
@@ -67,4 +69,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tasacion::class, 'gestor_id');
     }
+
+
+    public function tasaciones()
+    {
+        return $this->hasMany(Tasacion::class, 'user_id');
+    }
+
 }
