@@ -43,7 +43,8 @@ class Tasacion extends Resource
      */
     public static $search = [
         'id',
-        'estado'
+        'estado',
+        'comentarios'
     ];
 
     /**

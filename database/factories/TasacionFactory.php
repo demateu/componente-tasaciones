@@ -17,7 +17,7 @@ class TasacionFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'estado' => $this->faker->randomElement(['Solicitado', 'En proceso', 'Completado', 'Rechazado']),
         ];
     }
 }
