@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('apellidos');
 
             // esto debería ser un sistemab de implementacion de roles tipo con (ejemplo) el paquete Spatie
-            $table->set('tipo', ['cliente', 'agente'])->nullable();
+            $table->set('tipo', ['cliente', 'gestor'])->nullable();
 
         });
     }

@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 
 use App\Models\User;
 use App\Models\Vivienda;
+use Illuminate\Support\Facades\Auth;
 
 class Tasacion extends Model
 {
@@ -23,7 +24,8 @@ class Tasacion extends Model
         'comentarios',
         'cliente_id', //FK
         'gestor_id', //FK
-        'vivienda_id' //FK
+        'vivienda_id', //FK
+        'user_id' //FK
     ];
 
     /**
@@ -59,6 +61,29 @@ class Tasacion extends Model
     public function vivienda()
     {
         return $this->belongsTo(Vivienda::class, 'vivienda_id');
+    }
+
+
+    /**
+     * Set the estado attribute.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setEstadoAttribute($value)
+    {
+        $estado = strtolower($value);
+
+        $this->attributes['estado'] = $estado;
+    
+        // ...
+        TrazabilidadEstado::create([
+            'estado' => $estado,
+            'user_id' => Auth::id(),
+            'tasacion_id' => $this->id,
+        ]);
+        // ... crear Notificacion, pero hay que crear condicionales porque los estados deben aumentar?
+    
     }
 }
 

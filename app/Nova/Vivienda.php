@@ -43,6 +43,11 @@ class Vivienda extends Resource
         'direccion'
     ];
 
+    public static function uriKey()
+    {
+        return 'viviendas';
+    }
+
     /**
      * Get the fields displayed by the resource.
      *

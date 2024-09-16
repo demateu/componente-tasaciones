@@ -26,7 +26,7 @@ class Vivienda extends Model
      * Una vivienda puede tener varias tasaciones
      * 1 tasación pertenece a 1 sola vivienda
      */
-    public function tasaciones()
+    public function tasacions()
     {
         return $this->hasMany(Tasacion::class, 'vivienda_id');
     }

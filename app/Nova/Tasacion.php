@@ -12,10 +12,12 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\Currency;
 
 /** Models */
 //use App\Models\User;
 //use App\Nova\User;
+use App\Models\Vivienda;
 
 /**  */
 use Illuminate\Http\Request;
@@ -49,8 +51,15 @@ class Tasacion extends Resource
     public static $search = [
         'id',
         'estado',
-        'comentarios'
+        'comentarios',
+        'cliente.email'
     ];
+
+
+    public static function uriKey()
+    {
+        return 'tasacions';
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -64,8 +73,7 @@ class Tasacion extends Resource
         return [
 
             ID::make()->sortable(),
-
-            // (enum o select) !!
+            
             Badge::make('Estado', 'estado')
                 ->map([
                     EventStatus::Draft->value => 'warning',
@@ -75,21 +83,27 @@ class Tasacion extends Resource
                 ])
                 ->withIcons()
                 ->sortable()
-                ->filterable()
-                ->required(),
+                ->filterable()->onlyOnIndex(),
 
-            // Limita el texto a 50 caracteres
+            Select::make('Estado', 'estado')
+                ->options([
+                    EventStatus::Draft->value => 'Solicitado',
+                    EventStatus::Active->value => 'En proceso',
+                    EventStatus::Cancelled->value => 'Rechazado',
+                    EventStatus::Completed->value => 'Completado',
+                ])
+                ->rules('required')->hideFromIndex(),
+
+
             Text::make('Comentarios', 'comentarios')    
-                ->displayUsing(function ($value) {
-                return strlen($value) > 60 ? substr($value, 0, 60) . '...' : $value;
-            }),
+                ->hideFromIndex(),
 
             DateTime::make('Creado', 'created_at')
                 ->hideWhenCreating()
                 ->hideWhenUpdating()                
                 ->displayUsing(function ($value) {
                 return Carbon::parse($value)->format('d/m/Y');
-            }),
+            })->filterable(),
 
             DateTime::make('Actualizado', 'updated_at')
                 ->onlyOnDetail()
@@ -97,28 +111,41 @@ class Tasacion extends Resource
                 return Carbon::parse($value)->format('d/m/Y');
             }),
 
+
             // dentro de make va el nombre de la relacion de este modelo con el que queremos enlazar
-            BelongsTo::make('user'),
-
-            BelongsTo::make('vivienda'),
-
-            /*
-            // Relación con el cliente (User)
+            //BelongsTo::make('user'),
+            
             BelongsTo::make('Cliente', 'cliente', User::class)
-            ->sortable()
-            ->rules('required'),
-
-            // Relación con el gestor (User)
+                ->sortable()
+                ->rules('required'),
+            
             BelongsTo::make('Gestor', 'gestor', User::class)
                 ->sortable()
-                ->rules('required'),
+                ->rules('required')
+                ->filterable()
+                //->searchable()
+                //->displayUsingLabels()
+                /*
+                ->query(function ($query) {
+                    return $query->role('gestor'); // Si usas Spatie
+                })*/,
 
-            // Relación con la vivienda
+            BelongsTo::make('vivienda')->required(),
+            /*
             BelongsTo::make('Vivienda', 'vivienda', Vivienda::class)
-                ->sortable()
-                ->rules('required'),
+            ->sortable()
+            ->rules('required')
+            ->fields(function () {
+                return [
+                    Text::make('Dirección', 'direccion')
+                        ->rules('required')
+                        ->onlyOnForms(),
+                    Currency::make('Precio', 'precio')
+                        ->rules('nullable', 'numeric')
+                        ->onlyOnForms(),
+                ];
+            }),
             */
-
 
             //OJO QUE FALTAN VALIDACIONES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             

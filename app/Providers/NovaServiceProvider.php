@@ -24,6 +24,19 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         });
     }
 
+
+    /*
+    protected function resources()
+    {
+        Nova::resources([
+            \App\Nova\Tasacion::class,
+            \App\Nova\Vivienda::class,
+            \App\Nova\User::class,
+            // Otros recursos
+        ]);
+    }
+    */
+
     /**
      * Register the Nova routes.
      *

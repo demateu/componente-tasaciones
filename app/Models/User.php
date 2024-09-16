@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Builder;
 
 use App\Models\Tasacion;
 
@@ -58,22 +59,45 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tasacion::class, 'cliente_id');
     }
-        */
+    */
 
     /**
      * Un usuario puede tener varias tasaciones
      * como cliente o como gestor
      * esta pertenece al gestor
      */
+    /*
     public function tasacionesAsGestor()
     {
         return $this->hasMany(Tasacion::class, 'gestor_id');
     }
+    */
 
 
-    public function tasaciones()
+    public function tasacions()
     {
         return $this->hasMany(Tasacion::class, 'user_id');
+    }
+
+
+    /**
+     * Scope a query to only include users of a given type.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $type
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfType(Builder $query, string $type)
+    {
+        return $query->where('tipo', $type);
+    }
+    
+    public function scopeGestor($query){
+        $query->where('tipo', 'gestor');
+    }
+
+    public function scopeCliente($query){
+        $query->where('tipo', 'cliente');
     }
 
 }

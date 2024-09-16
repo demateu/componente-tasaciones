@@ -3,40 +3,28 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use App\Nova\Filters\UserType;
+use Laravel\Nova\Fields\Badge;
 
-/** Relationships */
-use Laravel\Nova\Fields\HasMany;
+/** Enums */
+use App\Enums\EventStatus;
 
-class User extends Resource
+class TrazabilidadEstado extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\User>
+     * @var class-string<\App\Models\TrazabilidadEstado>
      */
-    public static $model = \App\Models\User::class;
-    //public static $model = 'App\\Models\\User';
+    public static $model = \App\Models\TrazabilidadEstado::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'email';
-
-
-    public static function uriKey()
-    {
-        return 'users';
-    }
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -44,11 +32,10 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 
-        'name', 
-        'apellidos', 
-        'email',
-        'tipo'
+        'id',
+        'tasacion_id',
+        'estado',
+        'user_id',
     ];
 
     /**
@@ -61,31 +48,21 @@ class User extends Resource
     {
         return [
             ID::make()->sortable(),
-
-            Gravatar::make()->maxWidth(50),
-
-            Text::make('Email')
+            
+            Badge::make('Estado', 'estado')
+                ->map([
+                    EventStatus::Draft->value => 'warning',
+                    EventStatus::Active->value => 'success',
+                    EventStatus::Cancelled->value => 'danger',
+                    EventStatus::Completed->value => 'info',
+                ])
+                ->withIcons()
                 ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
+                ->filterable(),
 
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', Rules\Password::defaults())
-                ->updateRules('nullable', Rules\Password::defaults()),
-                
-            Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
-
-            Text::make('Apellidos', 'apellidos')
-                ->sortable()
-                ->rules('required', 'max:255'),
-
-
-            Text::make('Tipo', 'tipo')->sortable()->onlyOnIndex()->filterable(),
-
+            // Relaciones !!!
+                //'user_id',
+                //'tasacion_id',
         ];
     }
 
@@ -108,9 +85,7 @@ class User extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [
-            new UserType('select-filter'),
-        ];
+        return [];
     }
 
     /**
@@ -134,5 +109,4 @@ class User extends Resource
     {
         return [];
     }
-
 }

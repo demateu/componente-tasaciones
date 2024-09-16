@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tasacions', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            //$table->text('comentarios')->nullable();
+
             $table->text('comentarios');
             $table->set('estado', ['Solicitado', 'En proceso', 'Completado', 'Rechazado'])->default('Solicitado');
 
@@ -27,8 +27,8 @@ return new class extends Migration
             $table->foreign('gestor_id')->references('id')->on('users')->onDelete('set null');
 
             //test
-            $table->bigInteger('user_id')->unsigned()->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
 
             //FK PARA VIVIENDA
                 // si se elimina la vivienda, la tasacion también

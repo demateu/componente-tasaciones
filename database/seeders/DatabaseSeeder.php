@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             'apellidos' => 'apellido1 apellido2',    
             'email' => 'demateu80@gmail.com',
             'password' => 1234,//para la prueba
+            'tipo' => 'gestor'
         ]) ; 
         
         User::factory(30)
