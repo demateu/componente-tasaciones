@@ -47,32 +47,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-
-    /**
-     * Un usuario puede tener varias tasaciones
-     * como cliente o como gestor
-     * esta pertenece al cliente
-     */
-    /*
-    public function tasaciones()
-    {
-        return $this->hasMany(Tasacion::class, 'cliente_id');
-    }
-    */
-
-    /**
-     * Un usuario puede tener varias tasaciones
-     * como cliente o como gestor
-     * esta pertenece al gestor
-     */
-    /*
-    public function tasacionesAsGestor()
-    {
-        return $this->hasMany(Tasacion::class, 'gestor_id');
-    }
-    */
-
+    
 
     public function tasacions()
     {

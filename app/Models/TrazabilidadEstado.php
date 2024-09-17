@@ -26,7 +26,4 @@ class TrazabilidadEstado extends Model
         return $this->belongsTo(User::class);
     }
 
-    
-    /** METODO QUE ACCIONE ALGO CADA VEZ QUE SE GUARDA UN NUEVO ESTADO EN TASACION */
-    //un setter...
 }

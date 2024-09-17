@@ -117,8 +117,7 @@ class Tasacion extends Resource
                 return Carbon::parse($value)->format('d/m/Y');
             }),
 
-
-            // dentro de make va el nombre de la relacion de este modelo con el que queremos enlazar
+            
             //BelongsTo::make('user'),
             
             BelongsTo::make('Cliente', 'cliente', User::class)
@@ -128,32 +127,9 @@ class Tasacion extends Resource
             BelongsTo::make('Gestor', 'gestor', User::class)
                 ->sortable()
                 ->rules('required')
-                ->filterable()
-                //->searchable()
-                //->displayUsingLabels()
-                /*
-                ->query(function ($query) {
-                    return $query->role('gestor'); // Si usas Spatie
-                })*/,
+                ->filterable(),
 
             BelongsTo::make('vivienda')->required(),
-            /*
-            BelongsTo::make('Vivienda', 'vivienda', Vivienda::class)
-            ->sortable()
-            ->rules('required')
-            ->fields(function () {
-                return [
-                    Text::make('Dirección', 'direccion')
-                        ->rules('required')
-                        ->onlyOnForms(),
-                    Currency::make('Precio', 'precio')
-                        ->rules('nullable', 'numeric')
-                        ->onlyOnForms(),
-                ];
-            }),
-            */
-
-            //OJO QUE FALTAN VALIDACIONES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             
         ];
     }
@@ -199,15 +175,6 @@ class Tasacion extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [
-            //new EmailCambioEstado(),
-
-            EmailCambioEstado::using('Actualizacion', function(ActionFields $fields, Collection $models){
-                Tasacion::whereKey($models->pluck('id'))->update([
-
-                ]);
-            })
-
-        ];
+        return [];
     }
 }
