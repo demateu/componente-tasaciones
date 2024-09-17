@@ -1,12 +1,26 @@
 # componente-tasaciones
-Componente de tasación de viviendas dentro del CRM utilizando Laravel Nova,
-
-# diario de bitácora
-Laravel Nova sale a partir de Laravel 9. En mi mac tengo la versión 8.1.26 y la versión máxima apta es Laravel 10, así que trabajaré con Laravel 10.
+Componente de tasación de viviendas dentro del CRM utilizando Laravel Nova.
 
 
-Aclaración sobre la decisión actual de la arquitectura de BBDD escojida.
-...
+## Versiones
+- php 8.1
+- Laravel 10
+- Laravel Nova 4
+
+
+## Arquitectura
+User:
+- para los roles 'gestor' y 'cliente'. Usé el campo 'tipo' para diferenciarlos, aunque se podría haber usado Spatie (roles y permisos) para una mayor escalabilidad (aunque esto depende de la complejidad).
+
+Tasación:
+- Se relaciona con User de tipo 'gestor'.
+- Se relaciona con User de tipo 'cliente'.
+- Se relaciona con Vivienda.
+
+Vivienda:
+- Decido crear Entidad para mejorar la escalabilidad. Así una misma vivienda podrá tener varias tasaciones.
+
+<hr>
 
 # apuntes sobre mejora
 
