@@ -122,11 +122,13 @@ class Tasacion extends Resource
             
             BelongsTo::make('Cliente', 'cliente', User::class)
                 ->sortable()
+                ->searchable()
                 ->rules('required'),
             
             BelongsTo::make('Gestor', 'gestor', User::class)
                 ->sortable()
                 ->rules('required')
+                ->searchable()
                 ->filterable(),
 
             BelongsTo::make('vivienda')->required(),
