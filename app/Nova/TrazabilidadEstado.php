@@ -10,6 +10,8 @@ use Laravel\Nova\Fields\Badge;
 /** Enums */
 use App\Enums\EventStatus;
 
+use Laravel\Nova\Fields\BelongsTo;
+
 class TrazabilidadEstado extends Resource
 {
     /**
@@ -58,11 +60,12 @@ class TrazabilidadEstado extends Resource
                 ])
                 ->withIcons()
                 ->sortable()
-                ->filterable(),
+                ->filterable()
+                ->readOnly(),
 
-            // Relaciones !!!
-                //'user_id',
-                //'tasacion_id',
+            BelongsTo::make('Gestor', 'user', User::class)->readOnly(),
+
+            BelongsTo::make('Tasacion', 'tasacion', Tasacion::class)->readOnly(),
         ];
     }
 
@@ -109,4 +112,7 @@ class TrazabilidadEstado extends Resource
     {
         return [];
     }
+
+
+
 }

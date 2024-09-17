@@ -2,8 +2,11 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\EmailCambioEstado;
+
 /** Enums */
 use App\Enums\EventStatus;
+use App\Models\Tasacion as ModelsTasacion;
 
 /** Fields */
 use Laravel\Nova\Fields\ID;
@@ -26,6 +29,9 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 use Illuminate\Support\Carbon;
 
+use Laravel\Nova\Fields\ActionFields;
+use Illuminate\Database\Eloquent\Collection;//?
+
 class Tasacion extends Resource
 {
 
@@ -41,7 +47,7 @@ class Tasacion extends Resource
      *
      * @var string
      */
-    public static $title = 'comentarios';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -193,6 +199,15 @@ class Tasacion extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            //new EmailCambioEstado(),
+
+            EmailCambioEstado::using('Actualizacion', function(ActionFields $fields, Collection $models){
+                Tasacion::whereKey($models->pluck('id'))->update([
+
+                ]);
+            })
+
+        ];
     }
 }

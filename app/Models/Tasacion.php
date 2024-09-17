@@ -8,7 +8,15 @@ use Illuminate\Notifications\Notifiable;
 
 use App\Models\User;
 use App\Models\Vivienda;
+use App\Notifications\TasacionCambioEstado;
 use Illuminate\Support\Facades\Auth;
+
+use App\Nova\Actions\EmailCambioEstado;
+use Laravel\Nova\Fields\ActionFields;
+use Illuminate\Support\Collection;
+
+use App\Mail\TasacionActualizada;
+use Illuminate\Support\Facades\Mail;
 
 class Tasacion extends Model
 {
@@ -65,25 +73,29 @@ class Tasacion extends Model
 
 
     /**
-     * Set the estado attribute.
+     * Cuando cambia el estado de una tasacion
+     * guarda esos cambios en una tabla historial
+     * y envia el email al cliente
      *
      * @param  string  $value
      * @return void
      */
     public function setEstadoAttribute($value)
     {
-        $estado = strtolower($value);
-
-        $this->attributes['estado'] = $estado;
+        $this->attributes['estado'] = $value;
     
-        // ...
         TrazabilidadEstado::create([
-            'estado' => $estado,
+            'estado' => $value,
             'user_id' => Auth::id(),
             'tasacion_id' => $this->id,
         ]);
-        // ... crear Notificacion, pero hay que crear condicionales porque los estados deben aumentar?
-    
+
+        // Obtener el cliente y enviar el correo
+        $cliente = $this->cliente;
+
+        if ($cliente && $cliente->email) {
+            Mail::to($cliente->email)->send(new TasacionActualizada($this));
+        }
     }
 }
 
